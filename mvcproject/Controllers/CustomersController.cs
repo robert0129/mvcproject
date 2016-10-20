@@ -18,10 +18,10 @@ namespace mvcproject.Controllers
         public ActionResult Index(string search)
         {
             if (string.IsNullOrEmpty(search)) {
-                return View(db.客戶資料.ToList());
+                return View(db.客戶資料.Where(c => c.isDeleted != true).ToList());
             }
 
-            var customer = db.客戶資料.Where(c => c.客戶名稱.Contains(search));
+            var customer = db.客戶資料.Where(c => c.客戶名稱.Contains(search) && c.isDeleted != true);
             customer = customer.OrderByDescending(c => c.Id).Take(5);
 
             return View(customer);
@@ -117,7 +117,8 @@ namespace mvcproject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶資料 客戶資料 = db.客戶資料.Find(id);
-            db.客戶資料.Remove(客戶資料);
+            客戶資料.isDeleted = true;
+            //db.客戶資料.Remove(客戶資料);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
