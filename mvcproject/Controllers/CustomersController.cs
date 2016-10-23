@@ -22,6 +22,10 @@ namespace mvcproject.Controllers
             }
 
             var customer = db.客戶資料.Where(c => c.客戶名稱.Contains(search) && c.isDeleted != true);
+            if (customer.Count() == 0) {
+                ViewBag.Message = "查無此客戶資料";
+                //return View();
+            }
             customer = customer.OrderByDescending(c => c.Id).Take(5);
 
             return View(customer);
