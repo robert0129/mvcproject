@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@Html.ActionLink("客戶聯絡人管理", "Index") -  @Html.DisplayFor(model => model.姓名)</h2>
 
 <div>
     <h4>客戶聯絡人</h4>
@@ -51,14 +51,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
         </dt>
 
@@ -69,6 +61,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("修改聯絡人資訊", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("返回聯絡人資訊", "Index")
 </p>

@@ -26,12 +26,15 @@ namespace mvcproject.Models
         
         [StringLength(250, ErrorMessage="欄位長度不得大於 250 個字元")]
         [Required]
+        [Display(Name = "電子郵件")]
+        [EmailAddress(ErrorMessage = "無效電子郵件位址")]
         public string Email { get; set; }
-        
-        [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
+        [RegularExpression(@"^[0][9][0-9]{2}-[0-9]{3}-[0-9]{3}", ErrorMessage = "手機號碼需為有效數字，如:0987-123-456")]
+        [StringLength(12, ErrorMessage = "手機號碼不得超過十個數字")]
         public string 手機 { get; set; }
-        
-        [StringLength(50, ErrorMessage="欄位長度不得大於 50 個字元")]
+
+        [RegularExpression(@"^[0][1-9]-[0-9]{8}", ErrorMessage = "電話號碼需為有效數字，如:02-12345678")]
+        [StringLength(11, ErrorMessage = "電話號碼不得超過十個數字")]
         public string 電話 { get; set; }
         [Required]
         public bool isDeleted { get; set; }

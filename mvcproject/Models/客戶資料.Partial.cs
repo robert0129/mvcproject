@@ -25,7 +25,7 @@ namespace mvcproject.Models
         [StringLength(10, ErrorMessage="電話號碼不得超過十個數字")]
         [Required]
         public string 電話 { get; set; }
-        [RegularExpression(@"^[0][1-9][0-9]{8}", ErrorMessage = "傳真號碼需為有效數字")]
+        [RegularExpression(@"^[0][1-9][0-9]{8}", ErrorMessage = "傳真號碼需為有效數字,如:0223455678")]
         [StringLength(10, ErrorMessage = "傳真號碼不得超過十個數字")]
         public string 傳真 { get; set; }
         

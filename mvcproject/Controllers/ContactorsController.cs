@@ -15,10 +15,22 @@ namespace mvcproject.Controllers
         private customerEntities db = new customerEntities();
 
         // GET: Contactors
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var 客戶聯絡人 = db.客戶聯絡人.Include(客 => 客.客戶資料);
-            return View(客戶聯絡人.ToList());
+            if (string.IsNullOrEmpty(search))
+            {
+                var 客戶聯絡人 = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
+                return View(客戶聯絡人.ToList());
+            }
+
+            var contactor = db.客戶聯絡人.Where(c => c.姓名.Contains(search) && c.isDeleted != true);
+
+            if (contactor.Count() == 0)
+            {
+                ViewBag.Message = "查無此聯絡人資料";
+                return View();
+            }
+            return View(contactor);
         }
 
         // GET: Contactors/Details/5
@@ -115,7 +127,8 @@ namespace mvcproject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            db.客戶聯絡人.Remove(客戶聯絡人);
+            //db.客戶聯絡人.Remove(客戶聯絡人);
+            客戶聯絡人.isDeleted = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

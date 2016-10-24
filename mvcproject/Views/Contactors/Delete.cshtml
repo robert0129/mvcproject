@@ -4,9 +4,9 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<h2>刪除客戶聯絡人 -  @Html.DisplayFor(model => model.姓名)</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>確定刪除聯絡人?</h3>
 <div>
     <h4>客戶聯絡人</h4>
     <hr />
@@ -52,14 +52,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
         </dt>
 
@@ -73,8 +65,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="刪除" class="btn btn-default" /> |
+            @Html.ActionLink("返回客戶聯絡人管理", "Index")
         </div>
     }
 </div>
