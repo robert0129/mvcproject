@@ -15,20 +15,24 @@ namespace mvcproject.Controllers
         private customerEntities db = new customerEntities();
 
         // GET: Customers
+        
         public ActionResult Index(string search)
         {
             if (string.IsNullOrEmpty(search)) {
                 return View(db.客戶資料.Where(c => c.isDeleted != true).ToList());
             }
 
-            var customer = db.客戶資料.Where(c => c.客戶名稱.Contains(search) && c.isDeleted != true);
-            if (customer.Count() == 0) {
-                ViewBag.Message = "查無此客戶資料";
-                //return View();
-            }
-            customer = customer.OrderByDescending(c => c.Id).Take(5);
+            var customers = db.客戶資料.Where(c => c.客戶名稱.Contains(search) && c.isDeleted != true);
 
-            return View(customer);
+            if (customers.Count() == 0)
+            {
+                ViewBag.Message = "查無此客戶資料";
+                return View();
+            }
+
+            //customer = customer.OrderByDescending(c => c.Id).Take(5);
+
+            return View(customers);
         }
 
         // GET: Customers/Details/5

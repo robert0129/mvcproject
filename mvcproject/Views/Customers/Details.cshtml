@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>客戶資料 - @Html.DisplayFor(model => model.客戶名稱)</h2>
 
 <div>
-    <h4>客戶資料</h4>
+    <h4>客戶資料詳細資訊</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -57,18 +57,9 @@
         <dd>
             @Html.DisplayFor(model => model.Email)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("編輯", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("返回客戶資料", "Index")
 </p>
