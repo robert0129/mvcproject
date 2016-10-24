@@ -15,10 +15,23 @@ namespace mvcproject.Controllers
         private customerEntities db = new customerEntities();
 
         // GET: Banks
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
-            var 客戶銀行資訊 = db.客戶銀行資訊.Include(客 => 客.客戶資料);
-            return View(客戶銀行資訊.ToList());
+            if (string.IsNullOrEmpty(search))
+            {
+                var 客戶銀行資訊 = db.客戶銀行資訊.Where(b => b.isDeleted != true).Include(客 => 客.客戶資料);
+                return View(客戶銀行資訊.ToList());
+
+            }
+
+            var bank = db.客戶銀行資訊.Where(b => b.銀行名稱.Contains(search) && b.isDeleted != true);
+
+            if (bank.Count() == 0)
+            {
+                ViewBag.Message = "查無此銀行資訊";
+                return View();
+            }
+            return View(bank);
         }
 
         // GET: Banks/Details/5
@@ -115,7 +128,8 @@ namespace mvcproject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             客戶銀行資訊 客戶銀行資訊 = db.客戶銀行資訊.Find(id);
-            db.客戶銀行資訊.Remove(客戶銀行資訊);
+            客戶銀行資訊.isDeleted = true;
+            //db.客戶銀行資訊.Remove(客戶銀行資訊);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

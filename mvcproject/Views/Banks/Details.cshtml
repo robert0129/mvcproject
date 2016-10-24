@@ -4,7 +4,7 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>客戶銀行帳戶 - @Html.DisplayFor(model => model.銀行名稱)/@Html.DisplayFor(model => model.帳戶名稱)</h2>
 
 <div>
     <h4>客戶銀行資訊</h4>
@@ -51,14 +51,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.isDeleted)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.isDeleted)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
         </dt>
 
@@ -69,6 +61,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("編輯客戶銀行帳戶", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("返回客戶銀行帳戶", "Index")
 </p>
