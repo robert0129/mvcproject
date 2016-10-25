@@ -1,0 +1,40 @@
+﻿@model mvcproject.Models.vw_customerlists
+    @{
+    ViewBag.Title = "Details";
+    }
+
+    <h2> @Html.ActionLink("客戶總攬資訊", "Index")</h2>
+
+    <div>
+        <h4>@Html.DisplayFor(model => model.客戶名稱)</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.客戶名稱)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.客戶名稱)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.聯絡人數量)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.聯絡人數量)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.銀行帳戶數量)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.銀行帳戶數量)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("返回客戶總攬資訊", "Index")
+    </p>

@@ -182,6 +182,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BanksController.cs" />
     <Compile Include="Controllers\ContactorsController.cs" />
+    <Compile Include="Controllers\CustomerOverviewController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -395,6 +396,8 @@
     <Content Include="Views\Banks\Details.cshtml" />
     <Content Include="Views\Banks\Edit.cshtml" />
     <Content Include="Views\Banks\Index.cshtml" />
+    <Content Include="Views\CustomerOverview\Index.cshtml" />
+    <Content Include="Views\CustomerOverview\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
