@@ -21,7 +21,6 @@ namespace mvcproject.Controllers
             {
                 var 客戶銀行資訊 = db.客戶銀行資訊.Where(b => b.isDeleted != true).Include(客 => 客.客戶資料);
                 return View(客戶銀行資訊.ToList());
-
             }
 
             var bank = db.客戶銀行資訊.Where(b => b.銀行名稱.Contains(search) && b.isDeleted != true);
@@ -31,6 +30,7 @@ namespace mvcproject.Controllers
                 ViewBag.Message = "查無此銀行資訊";
                 return View();
             }
+
             return View(bank);
         }
 

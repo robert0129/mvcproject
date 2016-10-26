@@ -398,6 +398,7 @@
     <Content Include="Views\Banks\Index.cshtml" />
     <Content Include="Views\CustomerOverview\Index.cshtml" />
     <Content Include="Views\CustomerOverview\Details.cshtml" />
+    <Content Include="Settings.StyleCop" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />

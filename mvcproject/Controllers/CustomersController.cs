@@ -18,7 +18,8 @@ namespace mvcproject.Controllers
         
         public ActionResult Index(string search)
         {
-            if (string.IsNullOrEmpty(search)) {
+            if (string.IsNullOrEmpty(search))
+            {
                 return View(db.客戶資料.Where(c => c.isDeleted != true).ToList());
             }
 
