@@ -58,6 +58,7 @@ namespace mvcproject.Controllers
         // GET: Contactors/Create
         public ActionResult Create()
         {
+
             ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
             return View();
         }
@@ -67,11 +68,21 @@ namespace mvcproject.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話,isDeleted")] 客戶聯絡人 客戶聯絡人)
+        public ActionResult Create([Bind(Include = "Id, 客戶Id, 職稱, 姓名, Email, 手機, 電話, isDeleted")] 客戶聯絡人 客戶聯絡人)
         {
             if (ModelState.IsValid)
             {
+                var contactor = 客戶聯絡人;
+                var allcontactors = db.客戶聯絡人;
+
+                if (!contactor.isValidContactorEmail(allcontactors))
+                {
+                    TempData["status"] = "此客戶聯絡人 Email 不能重複，請重新輸入";
+                    return RedirectToAction("Create");
+                }
+
                 db.客戶聯絡人.Add(客戶聯絡人);
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

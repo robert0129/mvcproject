@@ -3,10 +3,36 @@ namespace mvcproject.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    
+    using System.Data.Entity;
+
     [MetadataType(typeof(客戶聯絡人MetaData))]
     public partial class 客戶聯絡人
     {
+        public bool isValidContactorEmail(DbSet<客戶聯絡人> allcontactors)
+        {
+            
+            bool ret = false;
+
+            foreach (var c in allcontactors)
+            {
+                if (string.Equals(c.Email, this.Email))
+                {
+                    return false;
+                } else
+                {
+                    return true;
+                }
+            }
+
+            return ret;
+            //if (this.Email.Contains(email))
+            //{
+            //    return false;
+            //} else
+            //{
+            //    return true;
+            //}
+        }
     }
     
     public partial class 客戶聯絡人MetaData
@@ -40,5 +66,7 @@ namespace mvcproject.Models
         public bool isDeleted { get; set; }
     
         public virtual 客戶資料 客戶資料 { get; set; }
+
+
     }
 }
