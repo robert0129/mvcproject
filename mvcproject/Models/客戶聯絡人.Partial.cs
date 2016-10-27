@@ -25,13 +25,6 @@ namespace mvcproject.Models
             }
 
             return ret;
-            //if (this.Email.Contains(email))
-            //{
-            //    return false;
-            //} else
-            //{
-            //    return true;
-            //}
         }
     }
     

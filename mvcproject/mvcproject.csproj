@@ -185,6 +185,7 @@
     <Compile Include="Controllers\CustomerOverviewController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -230,6 +231,7 @@
     <Compile Include="Models\sysdiagrams.Partial.cs">
       <DependentUpon>EFGeneratePartialClass.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\vw_customerlists.cs">
       <DependentUpon>CustomersModel.tt</DependentUpon>
     </Compile>
@@ -399,6 +401,7 @@
     <Content Include="Views\CustomerOverview\Index.cshtml" />
     <Content Include="Views\CustomerOverview\Details.cshtml" />
     <Content Include="Settings.StyleCop" />
+    <Content Include="Views\Login\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
