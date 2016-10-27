@@ -29,13 +29,13 @@
                           Model) {
                           <tr>
                               <td>
-                                  @Html.ActionLink(item.客戶名稱, "Details", new { id=item.客戶名稱 })
+                                  @Html.ActionLink(item.客戶名稱, "Index", "Customers", new {search = item.客戶名稱}, new {})
                               </td>
                               <td>                                  
-                                  @Html.DisplayFor(modelItem => item.聯絡人數量)
+                                  @Html.ActionLink(item.聯絡人數量+"" , "Index", "Contactors", new {search = item.客戶名稱}, new {})
                               </td>
                               <td>
-                                  @Html.DisplayFor(modelItem => item.銀行帳戶數量)
+                                  @Html.ActionLink(item.銀行帳戶數量+"", "Index", "Banks", new {search = item.客戶名稱}, new {})
                               </td>
                           </tr>
                           }

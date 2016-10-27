@@ -46,5 +46,22 @@ namespace mvcproject.Controllers
             //var vw = db.vw_customerlists.Where(co => co.客戶名稱.Contains(id));
             return View(客戶資訊);
         }
+
+        //public ActionResult RedirectToCustomer(string name)
+        //{
+        //    return RedirectToAction("Index", "Customers", new { search = name});
+        //    //return View();
+        //}
+
+        //public ActionResult RedirectToContactor(string name)
+        //{
+        //    return RedirectToAction("Index", "Contactors", new { search = name });
+        //    //return View();
+        //}
+        //public ActionResult RedirectToBank(string name)
+        //{
+        //    return RedirectToAction("Index", "Banks", new { search = name });
+        //    //return View();
+        //}
     }
 }

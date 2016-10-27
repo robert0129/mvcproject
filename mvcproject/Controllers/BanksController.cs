@@ -24,14 +24,19 @@ namespace mvcproject.Controllers
             }
 
             var bank = db.客戶銀行資訊.Where(b => b.銀行名稱.Contains(search) && b.isDeleted != true);
+            var vwbanks = db.客戶銀行資訊.Where(b => b.isDeleted != true).Include(客 => 客.客戶資料);
+            vwbanks = vwbanks.Where(vw => vw.客戶資料.客戶名稱.Contains(search));
 
-            if (bank.Count() == 0)
+            if (bank.Count() == 0 && vwbanks.Count() == 0)
             {
                 ViewBag.Message = "查無此銀行資訊";
                 return View();
+            } else if (bank.Count() == 0 && vwbanks.Count() >0) {
+                return View(vwbanks);
+            } else
+            {
+                return View(bank);
             }
-
-            return View(bank);
         }
 
         // GET: Banks/Details/5

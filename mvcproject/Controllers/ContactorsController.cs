@@ -24,13 +24,20 @@ namespace mvcproject.Controllers
             }
 
             var contactor = db.客戶聯絡人.Where(c => c.姓名.Contains(search) && c.isDeleted != true);
+            var vwcontactor = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
+            vwcontactor = vwcontactor.Where(v => v.客戶資料.客戶名稱.Contains(search));
 
-            if (contactor.Count() == 0)
+            if (contactor.Count() == 0 && vwcontactor.Count() == 0)
             {
                 ViewBag.Message = "查無此聯絡人資料";
                 return View();
+            } else if (vwcontactor.Count() > 0 && contactor.Count() == 0)
+            {
+                return View(vwcontactor);
+            } else
+            {
+                return View(contactor);
             }
-            return View(contactor);
         }
 
         // GET: Contactors/Details/5
