@@ -69,7 +69,7 @@ namespace mvcproject.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id, 客戶Id, 職稱, 姓名, Email, 手機, 電話, isDeleted")] 客戶聯絡人 客戶聯絡人)
-        {
+        { 
             if (ModelState.IsValid)
             {
                 var contactor = 客戶聯絡人;
