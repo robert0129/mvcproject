@@ -75,12 +75,6 @@ namespace mvcproject.Controllers
                 var contactor = 客戶聯絡人;
                 var allcontactors = db.客戶聯絡人;
 
-                if (!contactor.isValidContactorEmail(allcontactors))
-                {
-                    TempData["status"] = "此客戶聯絡人 Email 不能重複，請重新輸入";
-                    return RedirectToAction("Create");
-                }
-
                 db.客戶聯絡人.Add(客戶聯絡人);
                 
                 db.SaveChanges();
