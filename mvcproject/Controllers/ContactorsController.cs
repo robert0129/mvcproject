@@ -12,20 +12,26 @@ namespace mvcproject.Controllers
 {
     public class ContactorsController : Controller
     {
-        private customerEntities db = new customerEntities();
+        客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
+        客戶資料Repository clientRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: Contactors
         public ActionResult Index(string search)
         {
             if (string.IsNullOrEmpty(search))
             {
-                var 客戶聯絡人 = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
-                return View(客戶聯絡人.ToList());
+                //var 客戶聯絡人 = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
+                var contactors = repo.All();
+                return View(contactors.ToList());
             }
 
-            var contactor = db.客戶聯絡人.Where(c => c.姓名.Contains(search) && c.isDeleted != true);
-            var vwcontactor = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
-            vwcontactor = vwcontactor.Where(v => v.客戶資料.客戶名稱.Contains(search));
+            //var contactor = db.客戶聯絡人.Where(c => c.姓名.Contains(search) && c.isDeleted != true);
+            //var vwcontactor = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
+            //vwcontactor = vwcontactor.Where(v => v.客戶資料.客戶名稱.Contains(search));
+
+            var contactor = repo.All().Where(c => c.姓名.Contains(search));
+            var vwcontactor = repo.All().Where(v => v.客戶資料.客戶名稱.Contains(search));
+
 
             if (contactor.Count() == 0 && vwcontactor.Count() == 0)
             {
@@ -47,19 +53,20 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            if (客戶聯絡人 == null)
+            var contactor = repo.Find(id.Value);
+            
+            if (contactor == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶聯絡人);
+            return View(contactor);
         }
 
         // GET: Contactors/Create
         public ActionResult Create()
         {
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(repo.All(), "Id", "客戶名稱");
             return View();
         }
 
@@ -72,16 +79,12 @@ namespace mvcproject.Controllers
         { 
             if (ModelState.IsValid)
             {
-                var contactor = 客戶聯絡人;
-                var allcontactors = db.客戶聯絡人;
-
-                db.客戶聯絡人.Add(客戶聯絡人);
-                
-                db.SaveChanges();
+                repo.Add(客戶聯絡人);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
+            ViewBag.客戶Id = new SelectList(clientRepo.All(), "Id", "客戶名稱",  客戶聯絡人.客戶Id);
             return View(客戶聯絡人);
         }
 
@@ -92,13 +95,13 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            if (客戶聯絡人 == null)
+            var contactor = repo.Find(id.Value);
+            if (contactor == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
-            return View(客戶聯絡人);
+            ViewBag.客戶Id = new SelectList(clientRepo.All(), "Id", "客戶名稱", contactor.客戶Id);
+            return View(contactor);
         }
 
         // POST: Contactors/Edit/5
@@ -106,16 +109,19 @@ namespace mvcproject.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶Id,職稱,姓名,Email,手機,電話,isDeleted")] 客戶聯絡人 客戶聯絡人)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+
+            var contactor = repo.Find(id);
+
+            if (TryUpdateModel(contactor))
             {
-                db.Entry(客戶聯絡人).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            ViewBag.客戶Id = new SelectList(db.客戶資料, "Id", "客戶名稱", 客戶聯絡人.客戶Id);
-            return View(客戶聯絡人);
+
+            ViewBag.客戶Id = new SelectList(clientRepo.All(), "Id", "客戶名稱", contactor.客戶Id);
+            return View(contactor);
         }
 
         // GET: Contactors/Delete/5
@@ -125,12 +131,12 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            if (客戶聯絡人 == null)
+            var contactor = repo.Find(id.Value);
+            if (contactor == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶聯絡人);
+            return View(contactor);
         }
 
         // POST: Contactors/Delete/5
@@ -138,10 +144,9 @@ namespace mvcproject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶聯絡人 客戶聯絡人 = db.客戶聯絡人.Find(id);
-            //db.客戶聯絡人.Remove(客戶聯絡人);
-            客戶聯絡人.isDeleted = true;
-            db.SaveChanges();
+            var contactor = repo.Find(id);
+            repo.Delete(contactor);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -149,7 +154,7 @@ namespace mvcproject.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }

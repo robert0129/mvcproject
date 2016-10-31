@@ -12,26 +12,23 @@ namespace mvcproject.Controllers
 {
     public class CustomersController : Controller
     {
-        private customerEntities db = new customerEntities();
-
+        客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customers
         
         public ActionResult Index(string search)
         {
             if (string.IsNullOrEmpty(search))
             {
-                return View(db.客戶資料.Where(c => c.isDeleted != true).ToList());
+                return View(repo.All());
             }
 
-            var customers = db.客戶資料.Where(c => c.客戶名稱.Contains(search) && c.isDeleted != true);
+            var customers = repo.All().Where(c => c.客戶名稱.Contains(search));
 
             if (customers.Count() == 0)
             {
                 ViewBag.Message = "查無此客戶資料";
                 return View();
             }
-
-            //customer = customer.OrderByDescending(c => c.Id).Take(5);
 
             return View(customers);
         }
@@ -43,12 +40,14 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            if (客戶資料 == null)
+
+            var customer = repo.Find(id.Value);
+
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶資料);
+            return View(customer);
         }
 
         // GET: Customers/Create
@@ -66,8 +65,8 @@ namespace mvcproject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(客戶資料);
-                db.SaveChanges();
+                repo.Add(客戶資料);
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
 
@@ -81,12 +80,13 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            if (客戶資料 == null)
+
+            var customer = repo.Find(id.Value);
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶資料);
+            return View(customer);
         }
 
         // POST: Customers/Edit/5
@@ -94,15 +94,17 @@ namespace mvcproject.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,isDeleted")] 客戶資料 客戶資料)
+        public ActionResult Edit(int id, FormCollection form)
         {
-            if (ModelState.IsValid)
+            var customer = repo.Find(id);
+
+            if (TryUpdateModel(customer))
             {
-                db.Entry(客戶資料).State = EntityState.Modified;
-                db.SaveChanges();
+                repo.UnitOfWork.Commit();
                 return RedirectToAction("Index");
             }
-            return View(客戶資料);
+
+            return View(customer);
         }
 
         // GET: Customers/Delete/5
@@ -112,12 +114,14 @@ namespace mvcproject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            if (客戶資料 == null)
+
+            var customer = repo.Find(id.Value);
+
+            if (customer == null)
             {
                 return HttpNotFound();
             }
-            return View(客戶資料);
+            return View(customer);
         }
 
         // POST: Customers/Delete/5
@@ -125,10 +129,9 @@ namespace mvcproject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            客戶資料 客戶資料 = db.客戶資料.Find(id);
-            客戶資料.isDeleted = true;
-            //db.客戶資料.Remove(客戶資料);
-            db.SaveChanges();
+            var customer = repo.Find(id);
+            repo.Delete(customer);
+            repo.UnitOfWork.Commit();
             return RedirectToAction("Index");
         }
 
@@ -136,7 +139,7 @@ namespace mvcproject.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
         }
