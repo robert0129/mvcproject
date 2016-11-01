@@ -12,9 +12,35 @@ namespace mvcproject.Models
             return base.All().Where(c => c.是否已刪除 != true);
         }
 
+        public IQueryable<客戶資料> All(int? Filter)
+        {
+            return base.All().Where(c => c.是否已刪除 != true && c.客戶分類 >= Filter);
+        }
+
         public 客戶資料 Find(int Id)
         {
-            return this.All().FirstOrDefault(bank => bank.Id == Id);
+            return this.All().FirstOrDefault(c => c.Id == Id);
+        }
+
+        public IQueryable<客戶資料> All(string search, int classification)
+        {
+            if (String.IsNullOrEmpty(search) && classification == 0)
+            {
+                return this.All();
+            }
+            else if (!String.IsNullOrEmpty(search) && classification == 0)
+            {
+                return this.All().Where(c => c.客戶名稱 == search);
+            }
+            else if (String.IsNullOrEmpty(search) && classification != 0)
+            {
+                return this.All().Where(c => classification > c.客戶分類);
+            }
+            else
+            {
+                return this.All().Where(c => c.客戶名稱 == search && classification > c.客戶分類);
+            }
+                //throw new NotImplementedException();
         }
 
         public override void Delete(客戶資料 entity)

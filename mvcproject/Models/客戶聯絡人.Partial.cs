@@ -62,7 +62,7 @@ namespace mvcproject.Models
         [StringLength(11, ErrorMessage = "電話號碼不得超過十個數字")]
         public string 電話 { get; set; }
         [Required]
-        public bool isDeleted { get; set; }
+        public bool 是否已刪除 { get; set; }
     
         public virtual 客戶資料 客戶資料 { get; set; }
 

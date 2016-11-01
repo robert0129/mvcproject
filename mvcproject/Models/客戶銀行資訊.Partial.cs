@@ -36,7 +36,7 @@ namespace mvcproject.Models
         [RegularExpression(@"^[0-9]{3}-[0-9]{4}-[0-9]{3}-[0-9]{4}", ErrorMessage = "帳戶號碼需為有效數字，如:013-1234-567-8900")]
         public string 帳戶號碼 { get; set; }
         [Required]
-        public bool isDeleted { get; set; }
+        public bool 是否已刪除 { get; set; }
     
         public virtual 客戶資料 客戶資料 { get; set; }
     }

@@ -17,21 +17,19 @@ namespace mvcproject.Controllers
         
         public ActionResult Index(string search, int? classification)
         {
-            if (string.IsNullOrEmpty(search))
+            if (classification == null)
             {
-                return View(repo.All());
+                classification = 0;
             }
 
-            var customers = repo.All().Where(c => c.客戶名稱.Contains(search));
+            var customers = repo.All(search, classification.Value);
+            var options = repo.All().Select(c => c.客戶分類);
+            ViewBag.classification = new SelectList(options);
 
             if (customers.Count() == 0)
             {
                 ViewBag.Message = "查無此客戶資料";
-                return View();
             }
-
-            var options = (from c in db.客戶資料 select c.客戶分類).Distinct().OrderBy(c => c).ToList();
-            ViewBag.classification = new SelectList(options);
 
             return View(customers);
         }

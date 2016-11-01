@@ -16,34 +16,18 @@ namespace mvcproject.Controllers
         客戶資料Repository clientRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: Contactors
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, string JobTitle)
         {
-            if (string.IsNullOrEmpty(search))
-            {
-                //var 客戶聯絡人 = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
-                var contactors = repo.All();
-                return View(contactors.ToList());
-            }
+            var jtitle = repo.All().Select(c => c.職稱);
+            ViewBag.JobTitle = new SelectList(jtitle);
 
-            //var contactor = db.客戶聯絡人.Where(c => c.姓名.Contains(search) && c.isDeleted != true);
-            //var vwcontactor = db.客戶聯絡人.Where(c => c.isDeleted != true).Include(客 => 客.客戶資料);
-            //vwcontactor = vwcontactor.Where(v => v.客戶資料.客戶名稱.Contains(search));
+            var contactors = repo.All(search, JobTitle);
 
-            var contactor = repo.All().Where(c => c.姓名.Contains(search));
-            var vwcontactor = repo.All().Where(v => v.客戶資料.客戶名稱.Contains(search));
-
-
-            if (contactor.Count() == 0 && vwcontactor.Count() == 0)
+            if (contactors.Count() == 0)
             {
                 ViewBag.Message = "查無此聯絡人資料";
-                return View();
-            } else if (vwcontactor.Count() > 0 && contactor.Count() == 0)
-            {
-                return View(vwcontactor);
-            } else
-            {
-                return View(contactor);
             }
+            return View(contactors);
         }
 
         // GET: Contactors/Details/5
