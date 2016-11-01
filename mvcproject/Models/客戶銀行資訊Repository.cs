@@ -9,7 +9,7 @@ namespace mvcproject.Models
 	{
         public override IQueryable<客戶銀行資訊> All()
         {
-            return base.All().Where(bk => bk.isDeleted != true).Include(c => c.客戶資料);
+            return base.All().Where(bk => bk.是否已刪除 != true).Include(c => c.客戶資料);
         }
 
         public 客戶銀行資訊 Find(int Id)
@@ -19,7 +19,7 @@ namespace mvcproject.Models
 
         public override void Delete(客戶銀行資訊 entity)
         {
-            entity.isDeleted = true;
+            entity.是否已刪除 = true;
         }
     }
 

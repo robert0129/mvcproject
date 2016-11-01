@@ -10,12 +10,12 @@ using mvcproject.Models;
 
 namespace mvcproject.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomersController : BaseController
     {
         客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customers
         
-        public ActionResult Index(string search)
+        public ActionResult Index(string search, int? classification)
         {
             if (string.IsNullOrEmpty(search))
             {
@@ -29,6 +29,9 @@ namespace mvcproject.Controllers
                 ViewBag.Message = "查無此客戶資料";
                 return View();
             }
+
+            var options = (from c in db.客戶資料 select c.客戶分類).Distinct().OrderBy(c => c).ToList();
+            ViewBag.classification = new SelectList(options);
 
             return View(customers);
         }
