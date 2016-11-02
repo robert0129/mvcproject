@@ -1,0 +1,18 @@
+﻿@section script
+{
+<script>
+    $.ajax({
+                url: '@Url.Action("GetTotalInfo", "CustomerOverview")',
+                type: "get",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    alert(data);
+                },
+                error: function () {
+                    alert("NoData");
+                }
+            })();
+    
+</script> 
+}

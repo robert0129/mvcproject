@@ -439,6 +439,7 @@
     <Content Include="Views\CustomerOverview\Details.cshtml" />
     <Content Include="Settings.StyleCop" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Shared\NewsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />

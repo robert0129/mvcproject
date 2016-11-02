@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace mvcproject.Controllers
 {
-    public class CustomerOverviewController : Controller
+    public class CustomerOverviewController : BaseController
     {
         vw_customerlistsRepository repo = RepositoryHelper.Getvw_customerlistsRepository();
         // GET: CustomerOverview
@@ -45,6 +45,13 @@ namespace mvcproject.Controllers
             }
 
             return View(vw);
+        }
+
+        public JsonResult GetTotalInfo()
+        {   
+            repo.UnitOfWork.LazyLoadingEnabled = false;
+            var data = repo.All().OrderBy(p => p.客戶名稱).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }
