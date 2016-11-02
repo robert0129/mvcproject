@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using mvcproject.Models;
+using static mvcproject.Models.RepositoryHelper;
 
 namespace mvcproject.Controllers
 {
@@ -16,17 +17,24 @@ namespace mvcproject.Controllers
         客戶資料Repository clientRepo = RepositoryHelper.Get客戶資料Repository();
 
         // GET: Contactors
-        public ActionResult Index(string search, string JobTitle)
+        public ActionResult Index(string search, string JobTitle, Contactor? sortItem, string order)
         {
+            if (sortItem == null)
+            {
+                sortItem = 0;
+            }
+
             var jtitle = repo.All().Select(c => c.職稱);
             ViewBag.JobTitle = new SelectList(jtitle);
-
+            
             var contactors = repo.All(search, JobTitle);
 
             if (contactors.Count() == 0)
             {
                 ViewBag.Message = "查無此聯絡人資料";
             }
+
+            contactors = contactors.Sort(sortItem.Value, order);
             return View(contactors);
         }
 

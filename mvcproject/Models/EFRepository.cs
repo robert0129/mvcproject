@@ -41,6 +41,5 @@ namespace mvcproject.Models
 		{
 			ObjectSet.Remove(entity);
 		}
-
-	}
+    }
 }

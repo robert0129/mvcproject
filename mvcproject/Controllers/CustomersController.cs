@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using mvcproject.Models;
+using static mvcproject.Models.RepositoryHelper;
 
 namespace mvcproject.Controllers
 {
@@ -15,11 +16,21 @@ namespace mvcproject.Controllers
         客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: Customers
         
-        public ActionResult Index(string search, int? classification)
+        public ActionResult Index(string search, int? classification, Customer? sortItem, string order)
         {
             if (classification == null)
             {
                 classification = 0;
+            }
+
+            if (sortItem == null)
+            {
+                sortItem = 0;
+            }
+
+            if (String.IsNullOrEmpty(order))
+            {
+                order = "up";
             }
 
             var customers = repo.All(search, classification.Value);
@@ -31,6 +42,9 @@ namespace mvcproject.Controllers
                 ViewBag.Message = "查無此客戶資料";
             }
 
+
+
+            customers = customers.Sort(sortItem.Value, order);
             return View(customers);
         }
 

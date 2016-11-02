@@ -20,21 +20,33 @@
                           <tr>
                               <th>
                                   @Html.DisplayNameFor(model => model.職稱)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 0, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 0, order = "down"})
                               </th>
                               <th>
                                   @Html.DisplayNameFor(model => model.姓名)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 1, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 1, order = "down"})
                               </th>
                               <th>
                                   @Html.DisplayNameFor(model => model.Email)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 2, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 2, order = "down"})
                               </th>
                               <th>
                                   @Html.DisplayNameFor(model => model.手機)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 3, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 3, order = "down"})
                               </th>
                               <th>
                                   @Html.DisplayNameFor(model => model.電話)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 4, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 4, order = "down"})
                               </th>
                               <th>
                                   @Html.DisplayNameFor(model => model.客戶資料.客戶名稱)
+                                  @Html.ActionLink("<<", "Index", new { sortItem = 5, order = "up"}) |
+                                  @Html.ActionLink(">>", "Index", new { sortItem = 5, order = "down"})
                               </th>
                               <th></th>
                           </tr>
