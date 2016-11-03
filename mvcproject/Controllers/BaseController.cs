@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using mvcproject.Models;
+using System.Diagnostics;
 
 namespace mvcproject.Controllers
 {
@@ -19,8 +20,17 @@ namespace mvcproject.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var info = filterContext.DisplayMode;
+            ViewBag.Time = DateTime.Now.ToFileTimeUtc().ToString();
             base.OnActionExecuting(filterContext);
+        }
+
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        {
+            string currentTime = DateTime.Now.ToFileTimeUtc().ToString();
+            string startTime = ViewBag.Time;
+            long result = Convert.ToInt64(currentTime) - Convert.ToInt64(startTime);
+            Trace.TraceError("Duration : {0} seconds", (result * (1E-09)));
+            base.OnActionExecuted(filterContext);
         }
     }
 }
