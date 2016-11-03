@@ -16,5 +16,11 @@ namespace mvcproject.Controllers
             this.RedirectToAction("Index").ExecuteResult(this.ControllerContext);
             //base.HandleUnknownAction(actionName);
         }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var info = filterContext.DisplayMode;
+            base.OnActionExecuting(filterContext);
+        }
     }
 }

@@ -9,10 +9,12 @@ using System.Web.Mvc;
 using mvcproject.Models;
 using static mvcproject.Models.RepositoryHelper;
 using System.IO;
+using System.Data.Entity.Validation;
 
 namespace mvcproject.Controllers
 {
-    public class ContactorsController : Controller
+    [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
+    public class ContactorsController : BaseController
     {
         客戶聯絡人Repository repo = RepositoryHelper.Get客戶聯絡人Repository();
         客戶資料Repository clientRepo = RepositoryHelper.Get客戶資料Repository();
@@ -179,6 +181,29 @@ namespace mvcproject.Controllers
             book.Write(ms);
             ms.Seek(0, SeekOrigin.Begin);
             return File(ms, "application/vnd.ms-excel", "Contactors.xls");
+        }
+
+        public ActionResult ContactorsList()
+        {
+            var c = repo.All().ToList().Take(5);
+            return View(c);
+        }
+
+        public ActionResult BatchUpdate(ContactorModel[] items)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in items)
+                {
+                    客戶聯絡人 c = db.客戶聯絡人.Find(item.Id);
+                    c.職稱 = item.職稱;
+                    c.手機 = item.手機;
+                    c.電話 = item.電話;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }

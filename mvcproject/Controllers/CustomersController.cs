@@ -9,9 +9,11 @@ using System.Web.Mvc;
 using mvcproject.Models;
 using static mvcproject.Models.RepositoryHelper;
 using System.IO;
+using System.Data.Entity.Validation;
 
 namespace mvcproject.Controllers
 {
+    [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
     public class CustomersController : BaseController
     {
         客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
@@ -77,7 +79,7 @@ namespace mvcproject.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,isDeleted")] 客戶資料 客戶資料)
+        public ActionResult Create([Bind(Include = "Id,客戶名稱,統一編號,電話,傳真,地址,Email,使否刪除")] 客戶資料 客戶資料)
         {
             if (ModelState.IsValid)
             {
@@ -166,6 +168,7 @@ namespace mvcproject.Controllers
             NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Customers");
             NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
             var customers = repo.All().ToList();
+            
             row1.CreateCell(0).SetCellValue("客戶名稱");
             row1.CreateCell(1).SetCellValue("統一編號");
             row1.CreateCell(2).SetCellValue("電話");
@@ -187,6 +190,32 @@ namespace mvcproject.Controllers
             book.Write(ms);
             ms.Seek(0, SeekOrigin.Begin);
             return File(ms, "application/vnd.ms-excel", "Customers.xls");
+        }
+
+        public ActionResult BatchIndex()
+        {
+            var customers = repo.All().OrderBy(c => c.Id).Take(5);
+            return View(customers);
+        }
+
+        public ActionResult BatchUpdate(CustomerModel[] items)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in items)
+                {
+                    客戶資料 c = db.客戶資料.Find(item.Id);
+                    c.客戶名稱 = item.客戶名稱;
+                    c.統一編號 = item.統一編號;
+                    c.電話 = item.電話;
+                    c.傳真 = item.傳真;
+                    c.地址 = item.地址;
+                    c.Email = item.Email;
+                }
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
         }
     }
 }
