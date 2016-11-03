@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using mvcproject.Models;
 using static mvcproject.Models.RepositoryHelper;
+using System.IO;
 
 namespace mvcproject.Controllers
 {
@@ -149,6 +150,35 @@ namespace mvcproject.Controllers
                 repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult ExportContacotrs()
+        {
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Contactors");
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+            var contactors = repo.All().ToList();
+            row1.CreateCell(0).SetCellValue("職稱");
+            row1.CreateCell(1).SetCellValue("姓名");
+            row1.CreateCell(2).SetCellValue("電子郵件");
+            row1.CreateCell(3).SetCellValue("手機");
+            row1.CreateCell(4).SetCellValue("電話");
+            row1.CreateCell(5).SetCellValue("客戶名稱");
+
+            for (int i = 0; i < contactors.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(contactors[i].職稱.ToString());
+                rowtemp.CreateCell(1).SetCellValue(contactors[i].姓名.ToString());
+                rowtemp.CreateCell(2).SetCellValue(contactors[i].Email.ToString());
+                rowtemp.CreateCell(3).SetCellValue(contactors[i].手機.ToString());
+                rowtemp.CreateCell(4).SetCellValue(contactors[i].電話.ToString());
+                rowtemp.CreateCell(5).SetCellValue(contactors[i].客戶資料.客戶名稱.ToString());
+            }
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            book.Write(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            return File(ms, "application/vnd.ms-excel", "Contactors.xls");
         }
     }
 }

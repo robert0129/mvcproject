@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using mvcproject.Models;
+using System.IO;
 
 namespace mvcproject.Controllers
 {
@@ -153,6 +154,35 @@ namespace mvcproject.Controllers
                 repo.UnitOfWork.Context.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public FileResult ExportBanks()
+        {
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Banks");
+            NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+            var contactors = repo.All().ToList();
+            row1.CreateCell(0).SetCellValue("銀行名稱");
+            row1.CreateCell(1).SetCellValue("銀行代碼");
+            row1.CreateCell(2).SetCellValue("分行代碼");
+            row1.CreateCell(3).SetCellValue("帳戶名稱");
+            row1.CreateCell(4).SetCellValue("帳戶號碼");
+            row1.CreateCell(5).SetCellValue("客戶名稱");
+
+            for (int i = 0; i < contactors.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(contactors[i].銀行名稱.ToString());
+                rowtemp.CreateCell(1).SetCellValue(contactors[i].銀行代碼.ToString());
+                rowtemp.CreateCell(2).SetCellValue(contactors[i].分行代碼.ToString());
+                rowtemp.CreateCell(3).SetCellValue(contactors[i].帳戶名稱.ToString());
+                rowtemp.CreateCell(4).SetCellValue(contactors[i].帳戶號碼.ToString());
+                rowtemp.CreateCell(5).SetCellValue(contactors[i].客戶資料.客戶名稱.ToString());
+            }
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            book.Write(ms);
+            ms.Seek(0, SeekOrigin.Begin);
+            return File(ms, "application/vnd.ms-excel", "Banks.xls");
         }
     }
 }

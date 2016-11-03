@@ -57,16 +57,16 @@ namespace mvcproject.Controllers
 
         public FileResult ExportOverview()
         {
-            //string schoolname = "401";
             //创建Excel文件的对象
             NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
             //添加一个sheet
-            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Overview");
             //获取list数据
             var overview = repo.All().ToList();
             //List<TB_STUDENTINFOModel> listRainInfo = m_BLL.GetSchoolListAATQ(schoolname);
             //给sheet1添加第一行的头部标题
             NPOI.SS.UserModel.IRow row1 = sheet1.CreateRow(0);
+            
             row1.CreateCell(0).SetCellValue("客戶名稱");
             row1.CreateCell(1).SetCellValue("聯絡人數量");
             row1.CreateCell(2).SetCellValue("銀行帳戶數量");
