@@ -1,4 +1,5 @@
 ﻿using mvcproject.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace mvcproject.Controllers
 {
@@ -13,22 +15,30 @@ namespace mvcproject.Controllers
     {
         vw_customerlistsRepository repo = RepositoryHelper.Getvw_customerlistsRepository();
         // GET: CustomerOverview
-        public ActionResult Index(string search)
+        public ActionResult Index(int? page, string search)
         {
-            if (string.IsNullOrEmpty(search))
+            int pageNums = page ?? 1;
+            int pageSize = 5;
+            var v = repo.All().OrderBy(o => o.客戶名稱).ToList();
+            var vw = v.ToPagedList(pageNums, pageSize);
+            ViewBag.OnePageOfVWs = vw;
+
+            if (String.IsNullOrEmpty(search))
             {
-                return View(repo.All());
+                return View(vw);
             }
 
-            var vw = repo.All().Where(c => c.客戶名稱.Contains(search));
-
-            if (vw.Count() == 0)
+            var svw = repo.All().Where(c => c.客戶名稱.Contains(search));
+            if (svw.Count() == 0)
             {
                 ViewBag.Message = "無此客戶資訊 - " + search;
-                return View();
+                return View(svw.ToPagedList(pageNums, pageSize));
             }
 
+            vw = svw.ToPagedList(pageNums, pageSize);
+
             return View(vw);
+
         }
 
         public ActionResult Details(string id)

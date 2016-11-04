@@ -1,0 +1,51 @@
+﻿@model IEnumerable<mvcproject.Models.vw_customerlists>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<h2>@Html.ActionLink("客戶資訊總攬", "Index") | @Html.ActionLink("匯出", "ExportOverview")</h2>
+<form action="">
+    <p>
+        <input type="search" name="search" value="" />
+        <input type="submit" value="搜尋" />
+    </p>
+</form>
+                      <table class="table">
+                          <tr>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.客戶名稱)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.聯絡人數量)
+                              </th>
+                              <th>
+                                  @Html.DisplayNameFor(model => model.銀行帳戶數量)
+                              </th>
+                              <th></th>
+                          </tr>
+                          @if (Model != null) {
+                          foreach (var item in
+                          Model) {
+                          <tr>
+                              <td>
+                                  @Html.ActionLink(item.客戶名稱, "Index", "Customers", new {search = item.客戶名稱}, new {})
+                              </td>
+                              <td>                                  
+                                  @Html.ActionLink(item.聯絡人數量+"" , "Index", "Contactors", new {search = item.客戶名稱}, new {})
+                              </td>
+                              <td>
+                                  @Html.ActionLink(item.銀行帳戶數量+"", "Index", "Banks", new {search = item.客戶名稱}, new {})
+                              </td>
+                          </tr>
+                          }
+                          }
+                          else
+                          {
+                           <script>alert("@ViewBag.Message");</script>
+                          }
+                      </table>
+
+
