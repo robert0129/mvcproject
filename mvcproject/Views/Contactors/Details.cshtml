@@ -3,7 +3,9 @@
 @{
     ViewBag.Title = "Details";
 }
-
+@section breadcrumb {
+<li><a href="@Url.Action(" Index")">客戶聯絡人</a></li>
+}
 <h2>@Html.ActionLink("客戶聯絡人管理", "Index") -  @Html.DisplayFor(model => model.姓名)</h2>
 
 <div>

@@ -61,7 +61,7 @@ namespace mvcproject.Controllers
         public ActionResult Create()
         {
 
-            ViewBag.客戶Id = new SelectList(repo.All(), "Id", "客戶名稱");
+            ViewBag.客戶Id = new SelectList(clientRepo.All(), "Id", "客戶名稱");
             return View();
         }
 

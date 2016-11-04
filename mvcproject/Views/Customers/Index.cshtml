@@ -4,6 +4,10 @@
     ViewBag.Title = "Index";
     }
 
+    @section breadcrumb {
+    <li><a href="@Url.Action("Index")">客戶資料</a></li>
+    }
+
     <h2>@Html.ActionLink("客戶資料管理", "Index") | @Html.ActionLink("匯出", "ExportCustomers")</h2>
 
     <p>

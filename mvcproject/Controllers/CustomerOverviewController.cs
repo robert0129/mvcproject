@@ -84,5 +84,10 @@ namespace mvcproject.Controllers
             ms.Seek(0, SeekOrigin.Begin);
             return File(ms, "application/vnd.ms-excel", "CustomersOverView.xls");
         }
+
+        public ActionResult BoostrapTemplate()
+        {
+            return View();
+        }
     }
 }

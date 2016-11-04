@@ -3,6 +3,9 @@
 @{
     ViewBag.Title = "Edit";
 }
+@section breadcrumb {
+<li><a href="@Url.Action(" Index")">客戶銀行資料</a></li>
+}
 
 <h2>編輯客戶銀行帳戶 - @Html.DisplayFor(model => model.銀行名稱)/@Html.DisplayFor(model => model.帳戶名稱)</h2>
 

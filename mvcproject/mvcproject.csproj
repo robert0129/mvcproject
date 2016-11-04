@@ -475,6 +475,12 @@
     <Content Include="Views\Customers\BatchIndex.cshtml" />
     <Content Include="Views\Shared\Error_DbEntityValidationException.cshtml" />
     <Content Include="Views\Contactors\ContactorsList.cshtml" />
+    <Content Include="Views\CustomerOverview\BoostrapTemplate.cshtml" />
+    <Content Include="Views\Shared\_LayoutBoostrap.cshtml" />
+    <Content Include="Views\CustomerOverview\_ViewStart.cshtml" />
+    <Content Include="Views\Contactors\_ViewStart.cshtml" />
+    <Content Include="Views\Banks\_ViewStart.cshtml" />
+    <Content Include="Views\Customers\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
